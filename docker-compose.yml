@@ -1,0 +1,28 @@
+version: "3.8"
+
+volumes:
+  database-data:
+
+services:
+  app:
+    build: .
+    container_name: starnavi-app
+    restart: unless-stopped
+    command: ./docker-entrypoint.sh
+    env_file:
+      - .env
+    ports:
+      - "8008:8008"
+
+
+  postgres:
+    image: postgres
+    container_name: starnavi-postgres
+    hostname: postgres
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - database-data:/postgres-data
+    ports: # for debug
+      - "5432:5432"

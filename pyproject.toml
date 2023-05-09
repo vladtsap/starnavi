@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "starnavi"
+version = "1.0"
+description = "Starnavi test task"
+authors = []
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.1"
+psycopg = "^3.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
