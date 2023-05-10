@@ -8,6 +8,8 @@ authors = []
 python = "^3.11"
 django = "^4.1"
 psycopg2-binary = "^2.9"
+djangorestframework = "^3.14.0"
+markdown = "^3.4.3"
 
 
 [build-system]
