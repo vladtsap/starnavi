@@ -1,9 +1,12 @@
+from datetime import datetime
+
 from django.db import IntegrityError
 from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-from social_network.models import Post, Like
+from social_network.models import Post, Like, SocialUser
 from social_network.serializers import UserSerializer, PostSerializer
 
 
@@ -29,7 +32,15 @@ def sign_up(request):
     return JsonResponse({'username': user.username}, status=200)
 
 
+class CustomTokenObtainPairView(TokenObtainPairView):
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        
+        user = SocialUser.objects.get(username=request.data['username'])
+        user.last_login = datetime.now()
+        user.save()
 
+        return response
 
 
 @api_view(['POST'])
