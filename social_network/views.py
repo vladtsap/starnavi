@@ -12,6 +12,13 @@ def hello_world(request):
     return JsonResponse({'message': 'Hello, world!'})
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def hello(request):
+    user = request.user
+    return JsonResponse({'message': f'Hello, {user.username}!'})
+
+
 @api_view(['POST'])
 def sign_up(request):
     serializer = UserSerializer(data=request.data)
@@ -22,16 +29,7 @@ def sign_up(request):
     return JsonResponse({'username': user.username}, status=200)
 
 
-@api_view(['GET'])
-def hello_world(request):
-    return JsonResponse({'message': 'Hello, world!'})
 
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def hello(request):
-    user = request.user
-    return JsonResponse({'message': f'Hello, {user.username}!'})
 
 
 @api_view(['POST'])
