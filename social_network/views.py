@@ -89,3 +89,15 @@ def like_create_get_delete(request, post_id: int):
         else:
             like.delete()
             return HttpResponse(status=200)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def analytics_for_user(request, user_id: int):
+    user = SocialUser.objects.get(id=user_id)
+
+    return JsonResponse({
+        'username': user.username,
+        'last_activity': user.last_activity,
+        'last_login': user.last_login,
+    })
