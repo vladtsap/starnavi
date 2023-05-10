@@ -14,4 +14,5 @@ urlpatterns = [
     path('post/<int:post_id>', views.post_get),
     path('post/<int:post_id>/like', views.like_create_get_delete),
     path('analytics/user/<int:user_id>', views.analytics_for_user),
+    path('analytics/likes', views.analytics_for_likes),
 ]

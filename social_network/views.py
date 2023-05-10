@@ -1,6 +1,8 @@
 from datetime import datetime
 
 from django.db import IntegrityError
+from django.db.models import Count
+from django.db.models.functions import TruncDate
 from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -101,3 +103,21 @@ def analytics_for_user(request, user_id: int):
         'last_activity': user.last_activity,
         'last_login': user.last_login,
     })
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def analytics_for_likes(request):
+    likes_per_day = Like.objects.annotate(date=TruncDate('made_at')).values('date').annotate(total_likes=Count('id'))
+    likes_per_day = likes_per_day.order_by('date')
+
+    if date_from := request.GET.get('date_from'):
+        likes_per_day = likes_per_day.filter(date__gte=date_from)
+    if date_to := request.GET.get('date_to'):
+        likes_per_day = likes_per_day.filter(date__lte=date_to)
+
+    result = [
+        {'date': record['date'], 'total_likes': record['total_likes']}
+        for record in likes_per_day
+    ]
+    return JsonResponse(result, safe=False)
