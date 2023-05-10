@@ -1,3 +1,6 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-# Create your models here.
+
+class SocialUser(AbstractUser):
+    last_activity = models.DateTimeField(auto_now=True)
