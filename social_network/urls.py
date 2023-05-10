@@ -10,4 +10,5 @@ urlpatterns = [
     path('token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path('hello', views.hello),
     path('post', views.post_create_get),
+    path('post/<int:post_id>/like', views.like_create_get_delete),
 ]
