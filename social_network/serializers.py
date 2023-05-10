@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from social_network.models import SocialUser
+from social_network.models import SocialUser, Post
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -16,3 +16,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = SocialUser
         fields = ('username', 'password')
+
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ('id', 'text')

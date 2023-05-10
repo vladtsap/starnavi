@@ -2,7 +2,7 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
-from social_network.serializers import UserSerializer
+from social_network.serializers import UserSerializer, PostSerializer
 
 
 @api_view(['GET'])
@@ -30,3 +30,16 @@ def hello_world(request):
 def hello(request):
     user = request.user
     return JsonResponse({'message': f'Hello, {user.username}!'})
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def post_create_get(request):
+    user = request.user
+
+    serializer = PostSerializer(data=request.data)
+    if not serializer.is_valid():
+        return JsonResponse(serializer.errors, status=400)
+
+    post = serializer.save(author=user)
+    return JsonResponse({'id': post.id}, status=200)
