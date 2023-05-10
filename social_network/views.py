@@ -10,6 +10,17 @@ from social_network.models import Post, Like, SocialUser
 from social_network.serializers import UserSerializer, PostSerializer
 
 
+class CustomTokenObtainPairView(TokenObtainPairView):
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+
+        user = SocialUser.objects.get(username=request.data['username'])
+        user.last_login = datetime.now()
+        user.save()
+
+        return response
+
+
 @api_view(['GET'])
 def hello_world(request):
     return JsonResponse({'message': 'Hello, world!'})
@@ -30,17 +41,6 @@ def sign_up(request):
 
     user = serializer.save()
     return JsonResponse({'username': user.username}, status=200)
-
-
-class CustomTokenObtainPairView(TokenObtainPairView):
-    def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        
-        user = SocialUser.objects.get(username=request.data['username'])
-        user.last_login = datetime.now()
-        user.save()
-
-        return response
 
 
 @api_view(['POST'])
