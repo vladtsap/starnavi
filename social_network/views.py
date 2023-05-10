@@ -34,23 +34,25 @@ def hello(request):
     return JsonResponse({'message': f'Hello, {user.username}!'})
 
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def post_create_get(request):
-    if request.method == 'GET':
-        post = Post.objects.get(id=request.GET['id'])
+def post_create(request):
+    user = request.user
 
-        return JsonResponse(PostSerializer(post).data, status=200, safe=False)
+    serializer = PostSerializer(data=request.data)
+    if not serializer.is_valid():
+        return JsonResponse(serializer.errors, status=400)
 
-    elif request.method == 'POST':
-        user = request.user
+    post = serializer.save(author=user)
+    return JsonResponse({'id': post.id}, status=200)
 
-        serializer = PostSerializer(data=request.data)
-        if not serializer.is_valid():
-            return JsonResponse(serializer.errors, status=400)
 
-        post = serializer.save(author=user)
-        return JsonResponse({'id': post.id}, status=200)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def post_get(request, post_id: int):
+    post = Post.objects.get(id=post_id)
+
+    return JsonResponse(PostSerializer(post).data, status=200, safe=False)
 
 
 @api_view(['GET', 'POST', 'DELETE'])
