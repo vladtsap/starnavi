@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import pytz
 from django.db import IntegrityError
 from django.db.models import Count
 from django.db.models.functions import TruncDate
@@ -17,7 +18,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         response = super().post(request, *args, **kwargs)
 
         user = SocialUser.objects.get(username=request.data['username'])
-        user.last_login = datetime.now()
+        user.last_login = datetime.now(tz=pytz.UTC)
         user.save()
 
         return response
@@ -42,7 +43,7 @@ def sign_up(request):
         return JsonResponse(serializer.errors, status=400)
 
     user = serializer.save()
-    return JsonResponse({'username': user.username}, status=200)
+    return JsonResponse({'username': user.username}, status=201)
 
 
 @api_view(['POST'])
@@ -55,7 +56,7 @@ def post_create(request):
         return JsonResponse(serializer.errors, status=400)
 
     post = serializer.save(author=user)
-    return JsonResponse({'id': post.id}, status=200)
+    return JsonResponse({'id': post.id}, status=201)
 
 
 @api_view(['GET'])

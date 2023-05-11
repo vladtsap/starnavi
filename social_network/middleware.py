@@ -1,6 +1,8 @@
 import logging
 from datetime import datetime
 
+import pytz
+
 logger = logging.getLogger(__name__)
 
 
@@ -15,7 +17,7 @@ class LastActivityMiddleware:
 
         if request.user.is_authenticated:
             try:
-                request.user.last_activity = datetime.now()
+                request.user.last_activity = datetime.now(tz=pytz.UTC)
                 request.user.save()
             except Exception as e:
                 logger.error(e)
