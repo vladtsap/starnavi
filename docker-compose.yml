@@ -12,7 +12,7 @@ services:
     env_file:
       - .env
     ports:
-      - "8008:8008"
+      - "8000:8000"
 
 
   postgres:
@@ -24,5 +24,5 @@ services:
       - .env
     volumes:
       - database-data:/postgres-data
-    ports: # for debug
-      - "5432:5432"
+#    ports: # for debug
+#      - "5432:5432"
