@@ -47,6 +47,6 @@ To install and run the application, follow these steps:
 
 ## Usage
 
-For the detailed description of the API endpoints, please refer to the [API documentation](https://www.postman.com/vladtsap/workspace/worldwide-workspace/collection/5723895-ac76a9b1-c416-407f-8af1-331a079f8955).
+For the detailed description of the API endpoints, please refer to the [API documentation](https://www.postman.com/vladtsap/workspace/worldwide-workspace/documentation/5723895-ac76a9b1-c416-407f-8af1-331a079f8955).
 
 Also, you can import [Postman collection](misc/Starnavi_Test_Task.postman_collection.json) to your client.
