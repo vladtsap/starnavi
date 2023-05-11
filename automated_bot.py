@@ -16,6 +16,7 @@ BASE_URL = 'http://localhost:8000'
 fake_data = Faker()
 
 USER_DATA = {}  # {username: JWT-token}
+POST_IDS = []  # [post_id]
 
 
 async def create_new_user(session, username, password):
@@ -39,17 +40,27 @@ async def obtain_jwt_token(session, username, password) -> str:
             raise Exception('Failed to obtain JWT token')
 
 
-async def create_new_post(session, token):
+async def create_new_post(session, token, text) -> int:
     async with session.post(
             url=f'{BASE_URL}/post',
             headers={'Authorization': f'Bearer {token}'},
-            json={'text': fake_data.sentence()}
+            json={'text': text}
     ) as response:
         if response.status == 201:
             data = await response.json()
             return data['id']
         else:
             raise Exception('Failed to create post')
+
+
+async def like_post(session, token, post_id):
+    async with session.post(
+            url=f'{BASE_URL}/post/{post_id}/like',
+            headers={'Authorization': f'Bearer {token}'},
+    ) as response:
+        if response.status != 201:
+            raise Exception('Failed to like post')
+
 
 async def main():
     session = aiohttp.ClientSession()
