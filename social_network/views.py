@@ -48,7 +48,7 @@ def sign_up(request):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def post_create(request):
+def create_post(request):
     user = request.user
 
     serializer = PostSerializer(data=request.data)
@@ -61,7 +61,7 @@ def post_create(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def post_get(request, post_id: int):
+def get_post(request, post_id: int):
     post = Post.objects.get(id=post_id)
 
     return JsonResponse(PostSerializer(post).data, status=200, safe=False)

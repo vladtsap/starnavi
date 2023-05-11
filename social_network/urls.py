@@ -10,9 +10,9 @@ urlpatterns = [
     path('token', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path('hello', views.hello),
-    path('post', views.post_create),
-    path('post/<int:post_id>', views.post_get),
-    path('post/<int:post_id>/like', views.like_create_get_delete),
-    path('analytics/user/<int:user_id>', views.analytics_for_user),
+    path('posts', views.create_post),
+    path('posts/<int:post_id>', views.get_post),
+    path('posts/<int:post_id>/like', views.like_create_get_delete),
+    path('analytics/users/<int:user_id>', views.analytics_for_user),
     path('analytics/likes', views.analytics_for_likes),
 ]
