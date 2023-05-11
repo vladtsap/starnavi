@@ -42,7 +42,7 @@ async def obtain_jwt_token(session, username, password) -> str:
 
 async def create_new_post(session, token, text) -> int:
     async with session.post(
-            url=f'{BASE_URL}/post',
+            url=f'{BASE_URL}/posts',
             headers={'Authorization': f'Bearer {token}'},
             json={'text': text}
     ) as response:
@@ -55,7 +55,7 @@ async def create_new_post(session, token, text) -> int:
 
 async def like_post(session, token, post_id):
     async with session.post(
-            url=f'{BASE_URL}/post/{post_id}/like',
+            url=f'{BASE_URL}/posts/{post_id}/like',
             headers={'Authorization': f'Bearer {token}'},
     ) as response:
         if response.status != 200:
