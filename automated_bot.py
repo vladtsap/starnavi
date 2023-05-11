@@ -39,6 +39,18 @@ async def obtain_jwt_token(session, username, password) -> str:
             raise Exception('Failed to obtain JWT token')
 
 
+async def create_new_post(session, token):
+    async with session.post(
+            url=f'{BASE_URL}/post',
+            headers={'Authorization': f'Bearer {token}'},
+            json={'text': fake_data.sentence()}
+    ) as response:
+        if response.status == 201:
+            data = await response.json()
+            return data['id']
+        else:
+            raise Exception('Failed to create post')
+
 async def main():
     session = aiohttp.ClientSession()
 
