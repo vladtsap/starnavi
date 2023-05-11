@@ -42,7 +42,7 @@ def sign_up(request):
         return JsonResponse(serializer.errors, status=400)
 
     user = serializer.save()
-    return JsonResponse({'username': user.username}, status=200)
+    return JsonResponse({'username': user.username}, status=201)
 
 
 @api_view(['POST'])
@@ -55,7 +55,7 @@ def post_create(request):
         return JsonResponse(serializer.errors, status=400)
 
     post = serializer.save(author=user)
-    return JsonResponse({'id': post.id}, status=200)
+    return JsonResponse({'id': post.id}, status=201)
 
 
 @api_view(['GET'])
