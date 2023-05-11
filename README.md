@@ -4,7 +4,7 @@ This repository contains the code for a social media application developed as a 
 The application consists of two components: 
 a Django web application for social media functionality and an automated bot for creating users, posts, and liking them.
 
-[Task description is available here](misc/Task_Description.pdf)
+#### [Task description is available here](misc/Task_Description.pdf)
 
 ## Table of Contents
 
