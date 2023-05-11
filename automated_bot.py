@@ -72,6 +72,18 @@ async def main():
         token = await obtain_jwt_token(session, username, password)
         USER_DATA[username] = token
 
+    # Create posts
+    for token in USER_DATA.values():
+        for _ in range(fake_data.random_int(1, MAX_POSTS_PER_USER)):
+            post_id = await create_new_post(session, token, text=fake_data.sentence())
+            POST_IDS.append(post_id)
+
+    # Like posts
+    for token in USER_DATA.values():
+        liked_posts = fake_data.random_int(1, MAX_LIKES_PER_USER)
+        for post_id in fake_data.random_elements(elements=POST_IDS, length=liked_posts, unique=True):
+            await like_post(session, token, post_id)
+
     await session.close()
 
 
