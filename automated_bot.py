@@ -63,6 +63,7 @@ async def like_post(session, token, post_id):
 
 
 async def main():
+    print('Starting bot')
     session = aiohttp.ClientSession()
 
     # Create users
@@ -72,11 +73,15 @@ async def main():
         token = await obtain_jwt_token(session, username, password)
         USER_DATA[username] = token
 
+    print('Users were created')
+
     # Create posts
     for token in USER_DATA.values():
         for _ in range(fake_data.random_int(1, MAX_POSTS_PER_USER)):
             post_id = await create_new_post(session, token, text=fake_data.sentence())
             POST_IDS.append(post_id)
+
+    print('Posts were created')
 
     # Like posts
     for token in USER_DATA.values():
@@ -84,7 +89,11 @@ async def main():
         for post_id in fake_data.random_elements(elements=POST_IDS, length=liked_posts, unique=True):
             await like_post(session, token, post_id)
 
+    print('Posts were liked')
+
     await session.close()
+
+    print('Bot has finished its work')
 
 
 # Run the main coroutine
