@@ -7,7 +7,10 @@ authors = []
 [tool.poetry.dependencies]
 python = "^3.11"
 django = "^4.1"
-psycopg = "^3.1"
+psycopg2-binary = "^2.9"
+djangorestframework = "^3.14.0"
+markdown = "^3.4.3"
+djangorestframework-simplejwt = "^5.2.2"
 
 
 [build-system]

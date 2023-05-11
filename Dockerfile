@@ -1,12 +1,14 @@
 FROM python:3.11-slim
 
+WORKDIR /app
+
 ENV PYTHONUNBUFFERED=1
 ENV DEBUG=TRUE
 
-WORKDIR /app
+COPY ./requirements.txt /app/requirements.txt
+
+RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
 COPY . /app
 
-RUN chmod a+x docker-entrypoint.sh && \
-    python -m pip install --upgrade pip && \
-    python -m pip install -r requirements.txt
+RUN chmod a+x /app/docker-entrypoint.sh
