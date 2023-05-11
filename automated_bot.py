@@ -58,7 +58,7 @@ async def like_post(session, token, post_id):
             url=f'{BASE_URL}/post/{post_id}/like',
             headers={'Authorization': f'Bearer {token}'},
     ) as response:
-        if response.status != 201:
+        if response.status != 200:
             raise Exception('Failed to like post')
 
 
